@@ -9,7 +9,15 @@
 		  WindowStyle="None"
 		  Background="#FF1F1F1F">
 
-	<StackPanel Orientation="Vertical" Name="monitorsPanel">
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="..\Resources\Colors.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
 
+	<StackPanel Orientation="Vertical" Name="monitorsPanel">
+		<Label FontFamily="Segoe UI" FontSize="11.5pt" HorizontalAlignment="Left" Padding="8pt">Luminosità</Label>
 	</StackPanel>
 </Window>
