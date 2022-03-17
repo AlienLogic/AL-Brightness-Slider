@@ -74,7 +74,7 @@ namespace SlimShady.MonitorManagers
 	{
 		private readonly IntPtr hMonitor;
 
-		public HardwareMonitor(IntPtr hMonitor, String name, MonitorManager manager)
+		public HardwareMonitor(IntPtr hMonitor, string name, MonitorManager manager)
 			: base(name, manager)
 		{
 			this.hMonitor = hMonitor;
@@ -251,6 +251,12 @@ namespace SlimShady.MonitorManagers
 			if (closest >= 4500) return HwmWinApi.MC_COLOR_TEMPERATURE.MC_COLOR_TEMPERATURE_5000K;
 			if (closest >= 3500) return HwmWinApi.MC_COLOR_TEMPERATURE.MC_COLOR_TEMPERATURE_4000K;
 			throw new ArgumentException("Temperature cannot go below 3500");
+		}
+
+		// AL: added method for check monitor's brightness support, to be improved
+		public bool SupportBrightness()
+		{
+			return HwmWinApi.SetMonitorBrightness(hMonitor, (uint)mBrightness);
 		}
 	}
 }

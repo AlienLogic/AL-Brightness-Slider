@@ -18,7 +18,7 @@ namespace SlimShady.MonitorManagers
 			try
 			{
 				ManagementScope scope = new ManagementScope("root\\WMI");
-				String sQuery = "SELECT * FROM WmiMonitorBrightness WHERE InstanceName='" + Name.Replace("\\", "\\\\") + "'";
+				string sQuery = "SELECT * FROM WmiMonitorBrightness WHERE InstanceName='" + Name.Replace("\\", "\\\\") + "'";
 				SelectQuery query = new SelectQuery(sQuery);
 				ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
 				foreach (var item in searcher.Get())
@@ -40,7 +40,7 @@ namespace SlimShady.MonitorManagers
 				mBrightness = value;
 				int mastered = Lerp(MinBrightness, Math.Min(Brightness, MaxBrightness), Manager.MasterMonitor.Brightness);
 				const int timeoutInSeconds = 5;
-				monitor.InvokeMethod("WmiSetBrightness", new Object[] { timeoutInSeconds, (byte)mastered });
+				monitor.InvokeMethod("WmiSetBrightness", new object[] { timeoutInSeconds, (byte)mastered });
 				NotifyPropertyChanged();
 			}
 		}

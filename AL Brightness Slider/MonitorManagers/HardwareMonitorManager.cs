@@ -61,7 +61,10 @@ namespace SlimShady.MonitorManagers
 
 				foreach (HwmMgrWinApi.PHYSICAL_MONITOR physicalMonitor in physicalMonitors)
 				{
-					monitors.Add(new HardwareMonitor(physicalMonitor.hPhysicalMonitor, physicalMonitor.szPhysicalMonitorDescription, this));
+					// AL: only add monitors that effectively can change brightness
+					HardwareMonitor monitor = new HardwareMonitor(physicalMonitor.hPhysicalMonitor, physicalMonitor.szPhysicalMonitorDescription, this);
+					if (monitor.SupportBrightness())
+						monitors.Add(monitor);
 				}
 
 				return true;

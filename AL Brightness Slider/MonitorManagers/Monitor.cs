@@ -9,11 +9,11 @@ namespace SlimShady.MonitorManagers
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 		/// <summary>Name of the monitor rendered to the user</summary>
-		public readonly String Name;
+		public readonly string Name;
 
 		public MonitorManager Manager;
 
-		protected Monitor(String name, MonitorManager manager)
+		protected Monitor(string name, MonitorManager manager)
 		{
 			Name = name;
 			Manager = manager;
@@ -40,11 +40,9 @@ namespace SlimShady.MonitorManagers
 			return Name;
 		}
 
-		protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
-			var handler = PropertyChanged;
-			if (handler != null)
-				handler(this, new PropertyChangedEventArgs(propertyName));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		protected int Lerp(int from, int to, int value)
@@ -53,9 +51,9 @@ namespace SlimShady.MonitorManagers
 			return (int)((to - from) * fValue + from);
 		}
 
-		public String ToStringDbg()
+		public string ToStringDbg()
 		{
-			String temperatures = SupportedColorTemperaturesList != null ? String.Join(",", SupportedColorTemperaturesList) : "";
+			string temperatures = SupportedColorTemperaturesList != null ? string.Join(",", SupportedColorTemperaturesList) : "";
 			return Name + " { "
 				+ (SupportsBrightness ? "T" : "F") + " " + MinBrightness + "-" + Brightness + "-" + MaxBrightness + "; "
 				+ (SupportsContrast ? "T" : "F") + " " + MinContrast + "-" + Contrast + "-" + MaxContrast + "; "
