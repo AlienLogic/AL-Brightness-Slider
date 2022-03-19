@@ -5,9 +5,12 @@
 		  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		  xmlns:views="clr-namespace:AL_Brightness_Slider.Views"
 		  mc:Ignorable="d"
-		  Height="34" Width="360"
-		  WindowStyle="None"
-		  Background="#FF1F1F1F" Loaded="Window_Loaded" Name="mainWindow">
+		  Name="mainWindow"
+		  Height="34" Width="360" Background="#FF1F1F1F"
+		  WindowStyle="None" ShowInTaskbar="False"
+		  Loaded="Window_Loaded"
+		  Activated="mainWindow_Activated"
+		  Deactivated="mainWindow_Deactivated">
 
 	<Window.Resources>
 		<ResourceDictionary>

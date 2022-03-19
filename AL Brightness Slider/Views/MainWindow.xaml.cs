@@ -115,7 +115,6 @@ namespace AL_Brightness_Slider.Views
 				}));
 			}
 
-
 			notifyIcon.ContextMenu = contextMenu;
 			notifyIcon.Icon = new System.Drawing.Icon(@"icon.ico");
 			notifyIcon.Visible = true;
@@ -138,9 +137,26 @@ namespace AL_Brightness_Slider.Views
 				monitorsPanelItems.Children.Add(new MonitorPanelItem(monitor));
 		}
 
+		private void mainWindow_Deactivated(object sender, EventArgs e)
+		{
+			Visibility = Visibility.Hidden;
+		}
+
+		private void mainWindow_Activated(object sender, EventArgs e)
+		{
+			Focus();
+			Visibility = Visibility.Visible;
+		}
+
 		private void notifyIcon_click(object sender, EventArgs e)
 		{
-
+			if (Visibility == Visibility.Hidden)
+			{
+				Visibility = Visibility.Visible;
+				Activate();
+			}
+			else
+				Visibility = Visibility.Hidden;
 		}
 
 		private void monitorsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
