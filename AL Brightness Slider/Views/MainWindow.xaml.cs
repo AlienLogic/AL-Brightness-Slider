@@ -38,7 +38,8 @@ namespace AL_Brightness_Slider.Views
 			InitializeComponent();
 		}
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+		#region Events
+		private void mainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			switch (Environment.OSVersion.Version.Major)
 			{
@@ -90,10 +91,47 @@ namespace AL_Brightness_Slider.Views
 			}
 
 			loadMonitorsPanel();
-			CreateNotifyIConContexMenu();
+			createNotifyIConContexMenu();
 		}
 
-		private void CreateNotifyIConContexMenu()
+		private void mainWindow_Activated(object sender, EventArgs e)
+		{
+			Focus();
+			Visibility = Visibility.Visible;
+		}
+
+		private void mainWindow_Deactivated(object sender, EventArgs e)
+		{
+			Visibility = Visibility.Hidden;
+		}
+
+		private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			notifyIcon.Dispose();
+		}
+
+		private void notifyIcon_Click(object sender, EventArgs e)
+		{
+			if (Visibility == Visibility.Hidden)
+			{
+				Visibility = Visibility.Visible;
+				Activate();
+			}
+			else
+				Visibility = Visibility.Hidden;
+		}
+
+		private void monitorsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			Height = monitorsPanel.ActualHeight;
+
+			Top = Screen.PrimaryScreen.WorkingArea.Height - Height - offset;
+			Left = Screen.PrimaryScreen.WorkingArea.Width - Width - offset;
+		}
+		#endregion Events
+
+		#region Private Methods
+		private void createNotifyIConContexMenu()
 		{
 			ContextMenu contextMenu = new ContextMenu();
 
@@ -119,7 +157,7 @@ namespace AL_Brightness_Slider.Views
 			notifyIcon.Icon = new System.Drawing.Icon(@"icon.ico");
 			notifyIcon.Visible = true;
 			notifyIcon.Text = "Brightness";
-			notifyIcon.Click += notifyIcon_click;
+			notifyIcon.Click += notifyIcon_Click;
 		}
 
 		private void loadMonitorsPanel(bool reload = false)
@@ -135,36 +173,6 @@ namespace AL_Brightness_Slider.Views
 
 			foreach (Monitor monitor in monitors)
 				monitorsPanelItems.Children.Add(new MonitorPanelItem(monitor));
-		}
-
-		private void mainWindow_Deactivated(object sender, EventArgs e)
-		{
-			Visibility = Visibility.Hidden;
-		}
-
-		private void mainWindow_Activated(object sender, EventArgs e)
-		{
-			Focus();
-			Visibility = Visibility.Visible;
-		}
-
-		private void notifyIcon_click(object sender, EventArgs e)
-		{
-			if (Visibility == Visibility.Hidden)
-			{
-				Visibility = Visibility.Visible;
-				Activate();
-			}
-			else
-				Visibility = Visibility.Hidden;
-		}
-
-		private void monitorsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			Height = monitorsPanel.ActualHeight;
-
-			Top = Screen.PrimaryScreen.WorkingArea.Height - Height - offset;
-			Left = Screen.PrimaryScreen.WorkingArea.Width - Width - offset;
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -195,6 +203,7 @@ namespace AL_Brightness_Slider.Views
 
 			return IntPtr.Zero;
 		}
+		#endregion Private Methods
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

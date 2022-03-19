@@ -8,9 +8,9 @@
 		  Name="mainWindow"
 		  Height="34" Width="360" Background="#FF1F1F1F"
 		  WindowStyle="None" ShowInTaskbar="False"
-		  Loaded="Window_Loaded"
+		  Loaded="mainWindow_Loaded"
 		  Activated="mainWindow_Activated"
-		  Deactivated="mainWindow_Deactivated">
+		  Deactivated="mainWindow_Deactivated" Closing="mainWindow_Closing">
 
 	<Window.Resources>
 		<ResourceDictionary>
