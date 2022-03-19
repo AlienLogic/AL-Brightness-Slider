@@ -5,12 +5,9 @@ using System.Windows.Controls;
 
 namespace AL_Brightness_Slider.Views
 {
-	/// <summary>
-	/// Logica di interazione per MonitorPanelItem.xaml
-	/// </summary>
 	public partial class MonitorPanelItem : UserControl
 {
-		Monitor monitor;
+		private readonly Monitor monitor;
 
 		public MonitorPanelItem(Monitor monitor)
 		{

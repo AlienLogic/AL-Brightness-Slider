@@ -7,7 +7,7 @@
 		  mc:Ignorable="d"
 		  Height="34" Width="360"
 		  WindowStyle="None"
-		  Background="#FF1F1F1F" Loaded="Window_Loaded">
+		  Background="#FF1F1F1F" Loaded="Window_Loaded" Name="mainWindow">
 
 	<Window.Resources>
 		<ResourceDictionary>
@@ -19,5 +19,6 @@
 
 	<StackPanel Orientation="Vertical" Name="monitorsPanel" SizeChanged="monitorsPanel_SizeChanged">
 		<Label FontFamily="Segoe UI" FontSize="11.5pt" HorizontalAlignment="Left" Padding="8pt">Luminosità</Label>
+		<StackPanel Orientation="Vertical" Name="monitorsPanelItems"/>
 	</StackPanel>
 </Window>

@@ -29,6 +29,7 @@ namespace AL_Brightness_Slider.Views
 		private const int HTTOPLEFT = 13;
 		private const int HTTOPRIGHT = 14;
 
+		private readonly NotifyIcon notifyIcon = new NotifyIcon();
 		private readonly List<Monitor> monitors = new List<Monitor>();
 		private int offset = 0;
 
@@ -84,22 +85,62 @@ namespace AL_Brightness_Slider.Views
 					break;
 				case 10: // Windows 10
 					ResizeMode = ResizeMode.NoResize;
+
 					break;
 			}
 
 			loadMonitorsPanel();
+			CreateNotifyIConContexMenu();
+		}
+
+		private void CreateNotifyIConContexMenu()
+		{
+			ContextMenu contextMenu = new ContextMenu();
+
+			_ = contextMenu.MenuItems.Add(new MenuItem("Exit", (snd, ev) =>
+			{
+				Close();
+			}));
+
+			/*_ = contextMenu.MenuItems.Add(new MenuItem("Start with Windows", (snd, ev) =>
+			{
+				// ...
+			}));*/
+
+			if (System.Diagnostics.Debugger.IsAttached)
+			{
+				_ = contextMenu.MenuItems.Add(new MenuItem("Reload monitors", (snd, ev) =>
+				{
+					loadMonitorsPanel(true);
+				}));
+			}
+
+
+			notifyIcon.ContextMenu = contextMenu;
+			notifyIcon.Icon = new System.Drawing.Icon(@"icon.ico");
+			notifyIcon.Visible = true;
+			notifyIcon.Text = "Brightness";
+			notifyIcon.Click += notifyIcon_click;
 		}
 
 		private void loadMonitorsPanel(bool reload = false)
 		{
 			if (reload)
+			{
 				monitors.Clear();
+				monitorsPanelItems.Children.Clear();
+			}
 
 			monitors.AddRange(WmiMonitorManager.Instance.GetMonitorsList());
 			monitors.AddRange(HardwareMonitorManager.Instance.GetMonitorsList());
 
 			foreach (Monitor monitor in monitors)
-				monitorsPanel.Children.Add(new MonitorPanelItem(monitor));
+				monitorsPanelItems.Children.Add(new MonitorPanelItem(monitor));
+		}
+
+		private void notifyIcon_click(object sender, EventArgs e)
+		{
+
 		}
 
 		private void monitorsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
