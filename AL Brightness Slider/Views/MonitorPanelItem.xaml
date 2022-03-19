@@ -5,7 +5,7 @@
 				 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 				 xmlns:views="clr-namespace:AL_Brightness_Slider.Views"
 				 mc:Ignorable="d"
-				 Height="66" Width="360">
+				 Height="66" Width="360" Loaded="MonitorPanelItem_Loaded">
 	<Grid>
 		<Grid.Resources>
 			<ResourceDictionary>
@@ -23,8 +23,8 @@
 
 		<Image Source="..\Resources\brightness.png" Width="33" Height="33" Grid.Column="0" />
 
-		<Slider Minimum="0" Maximum="100" DockPanel.Dock="Bottom" Grid.Column="1" Height="20" ValueChanged="Slider_ValueChanged" Margin="8"/>
+		<Slider Minimum="0" Maximum="100" DockPanel.Dock="Bottom" Grid.Column="1" Height="20" ValueChanged="slider_ValueChanged" Margin="8" Name="slider" SmallChange="1" TickFrequency="10" LargeChange="5" MouseWheel="slider_MouseWheel"/>
 
-		<Label Grid.Column="2" FontSize="22" FontFamily="Microsoft Sans Serif" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</Label>
+		<Label Grid.Column="2" FontSize="22" FontFamily="Microsoft Sans Serif" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="text">0</Label>
 	</Grid>
 </UserControl>
