@@ -172,7 +172,10 @@ namespace AL_Brightness_Slider.Views
 			monitors.AddRange(HardwareMonitorManager.Instance.GetMonitorsList());
 
 			foreach (Monitor monitor in monitors)
-				monitorsPanelItems.Children.Add(new MonitorPanelItem(monitor));
+				monitorsPanelItems.Children.Add(new MonitorPanelItem(monitor)
+				{
+					DataContext = new ViewModels.MonitorPanelItemViewModel()
+				});
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

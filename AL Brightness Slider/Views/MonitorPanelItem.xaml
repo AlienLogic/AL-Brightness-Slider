@@ -4,27 +4,37 @@
 				 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 				 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 				 xmlns:views="clr-namespace:AL_Brightness_Slider.Views"
+				 xmlns:viewModels="clr-namespace:AL_Brightness_Slider.ViewModels"
 				 mc:Ignorable="d"
-				 Height="66" Width="360" Loaded="MonitorPanelItem_Loaded">
-	<Grid>
-		<Grid.Resources>
+				 d:DataContext="{d:DesignInstance viewModels:MonitorPanelItemViewModel, IsDesignTimeCreatable=True}"
+				 Width="{Binding Path=PanelWidth}" Height="{Binding Path=PanelHeight}"
+				 Loaded="MonitorPanelItem_Loaded">
+
+	<DockPanel>
+		<DockPanel.Resources>
 			<ResourceDictionary>
 				<ResourceDictionary.MergedDictionaries>
-					<ResourceDictionary Source="..\Resources\Colors.xaml" />
+					<ResourceDictionary Source="..\Resources\Colors.xaml"/>
 				</ResourceDictionary.MergedDictionaries>
 			</ResourceDictionary>
-		</Grid.Resources>
+		</DockPanel.Resources>
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="66"></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
-			<ColumnDefinition Width="66"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
+		<Grid Width="{Binding Path=SquareIconText}" Height="{Binding Path=SquareIconText}" DockPanel.Dock="{Binding Path=ImageDock}" Name="grid_Image">
+			<Image Width="28" Height="{Binding Path=Width, ElementName=image}" Source="..\Resources\brightness.png" Name="image"/>
+		</Grid>
 
-		<Image Source="..\Resources\brightness.png" Width="33" Height="33" Grid.Column="0" />
+		<Grid Width="{Binding Path=SquareIconText}" Height="{Binding Path=SquareIconText}" DockPanel.Dock="{Binding Path=LabelDock}" Name="grid_Label">
+			<Label FontSize="22" FontFamily="Microsoft Sans Serif" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="text" Content="{Binding Path=LabelBrightness}"/>
+		</Grid>
 
-		<Slider Minimum="0" Maximum="100" DockPanel.Dock="Bottom" Grid.Column="1" Height="20" ValueChanged="slider_ValueChanged" Margin="8" Name="slider" SmallChange="1" TickFrequency="10" LargeChange="5" MouseWheel="slider_MouseWheel"/>
-
-		<Label Grid.Column="2" FontSize="22" FontFamily="Microsoft Sans Serif" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="text">0</Label>
-	</Grid>
+		<Grid>
+			<Slider Orientation="{Binding Path=PanelOrientation}"
+					  HorizontalAlignment="{Binding Path=SliderHorizontalAlignment}"
+					  VerticalAlignment="{Binding Path=SliderVerticalAlignment}"
+					  Minimum="0" Maximum="100" SmallChange="1" LargeChange="5" TickFrequency="10"
+					  ValueChanged="slider_ValueChanged"
+					  MouseWheel="slider_MouseWheel"
+					  Name="slider"/>
+		</Grid>
+	</DockPanel>
 </UserControl>
