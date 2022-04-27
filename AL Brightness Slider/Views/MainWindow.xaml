@@ -4,13 +4,18 @@
 		  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		  xmlns:views="clr-namespace:AL_Brightness_Slider.Views"
+		  xmlns:viewModels="clr-namespace:AL_Brightness_Slider.ViewModels"
 		  mc:Ignorable="d"
-		  Name="mainWindow"
-		  Height="34" Width="360" Background="#FF1F1F1F"
-		  WindowStyle="None" ShowInTaskbar="False"
+		  d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}"
+		  Name="mainWindow" SizeToContent="WidthAndHeight" WindowStyle="None" ShowInTaskbar="False"
+		  Background="{Binding Path=BackgroundColor}" ResizeMode="{Binding Path=ResizeMode}"
+		  Top="{Binding Path=WindowTop, Mode=TwoWay}" Left="{Binding Path=WindowLeft, Mode=TwoWay}"
 		  Loaded="mainWindow_Loaded"
 		  Activated="mainWindow_Activated"
-		  Deactivated="mainWindow_Deactivated" Closing="mainWindow_Closing">
+		  Deactivated="mainWindow_Deactivated"
+		  Closing="mainWindow_Closing">
+
+		  
 
 	<Window.Resources>
 		<ResourceDictionary>
@@ -20,8 +25,8 @@
 		</ResourceDictionary>
 	</Window.Resources>
 
-	<StackPanel Orientation="Vertical" Name="monitorsPanel" SizeChanged="monitorsPanel_SizeChanged">
-		<Label FontFamily="Segoe UI" FontSize="11.5pt" HorizontalAlignment="Left" Padding="8pt">Luminosità</Label>
-		<StackPanel Orientation="Vertical" Name="monitorsPanelItems"/>
-	</StackPanel>
+	<DockPanel Width="{Binding Path=WindowWidth}" Height="{Binding Path=WindowHeight}" Name="monitorsPanel">
+		<Label FontFamily="Segoe UI" FontSize="11.5pt" DockPanel.Dock="Top" Height="40" VerticalContentAlignment="Center" Padding="15,5,5,5">Luminosità</Label>
+		<StackPanel Orientation="{Binding Path=WindowOrientation}" Name="monitorsPanelItems" />
+	</DockPanel>
 </Window>

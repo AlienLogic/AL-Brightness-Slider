@@ -10,14 +10,15 @@
 				 Width="{Binding Path=PanelWidth}" Height="{Binding Path=PanelHeight}"
 				 Loaded="MonitorPanelItem_Loaded">
 
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="..\Resources\Colors.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
 	<DockPanel>
-		<DockPanel.Resources>
-			<ResourceDictionary>
-				<ResourceDictionary.MergedDictionaries>
-					<ResourceDictionary Source="..\Resources\Colors.xaml"/>
-				</ResourceDictionary.MergedDictionaries>
-			</ResourceDictionary>
-		</DockPanel.Resources>
 
 		<Grid Width="{Binding Path=SquareIconText}" Height="{Binding Path=SquareIconText}" DockPanel.Dock="{Binding Path=ImageDock}" Name="grid_Image">
 			<Image Width="28" Height="{Binding Path=Width, ElementName=image}" Source="..\Resources\brightness.png" Name="image"/>

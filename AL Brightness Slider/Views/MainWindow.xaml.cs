@@ -31,7 +31,6 @@ namespace AL_Brightness_Slider.Views
 
 		private readonly NotifyIcon notifyIcon = new NotifyIcon();
 		private readonly List<Monitor> monitors = new List<Monitor>();
-		private int offset = 0;
 
 		public MainWindow()
 		{
@@ -41,62 +40,13 @@ namespace AL_Brightness_Slider.Views
 		#region Events
 		private void mainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
-			switch (Environment.OSVersion.Version.Major)
-			{
-				case 6:
-					switch (Environment.OSVersion.Version.Minor)
-					{
-						case 1: // Windows 7
-							try
-							{
-								// Obtain the window handle for WPF application
-								IntPtr mainWindowPtr = new WindowInteropHelper(this).Handle;
-								HwndSource mainWindowSrc = HwndSource.FromHwnd(mainWindowPtr);
-								mainWindowSrc.CompositionTarget.BackgroundColor = Color.FromArgb(0, 0, 0, 0);
-								mainWindowSrc.AddHook(WndProc);
-
-								// Set Margins
-								MARGINS margins = new MARGINS
-								{
-									cxLeftWidth = 4,
-									cxRightWidth = 4,
-									cyBottomHeight = 4,
-									cyTopHeight = 4
-								};
-
-								int hr = DwmExtendFrameIntoClientArea(mainWindowSrc.Handle, ref margins);
-								if (hr < 0)
-								{
-									//DwmExtendFrameIntoClientArea Failed
-								}
-							}
-							catch (DllNotFoundException) // If not Vista, paint background white.
-							{
-								Background = Brushes.White;
-							}
-
-							//Background = Brushes.White;
-							offset = 8;
-
-							break;
-						case 2: // Windows 8
-						case 3: // Windows 8.1
-							break;
-					}
-					break;
-				case 10: // Windows 10
-					ResizeMode = ResizeMode.NoResize;
-
-					break;
-			}
-
 			loadMonitorsPanel();
 			createNotifyIConContexMenu();
 		}
 
 		private void mainWindow_Activated(object sender, EventArgs e)
 		{
-			Focus();
+			_ = Focus();
 			Visibility = Visibility.Visible;
 		}
 
@@ -119,14 +69,6 @@ namespace AL_Brightness_Slider.Views
 			}
 			else
 				Visibility = Visibility.Hidden;
-		}
-
-		private void monitorsPanel_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			Height = monitorsPanel.ActualHeight;
-
-			Top = Screen.PrimaryScreen.WorkingArea.Height - Height - offset;
-			Left = Screen.PrimaryScreen.WorkingArea.Width - Width - offset;
 		}
 		#endregion Events
 
@@ -172,7 +114,7 @@ namespace AL_Brightness_Slider.Views
 			monitors.AddRange(HardwareMonitorManager.Instance.GetMonitorsList());
 
 			foreach (Monitor monitor in monitors)
-				monitorsPanelItems.Children.Add(new MonitorPanelItem(monitor)
+				_ = monitorsPanelItems.Children.Add(new MonitorPanelItem(monitor)
 				{
 					DataContext = new ViewModels.MonitorPanelItemViewModel()
 				});
@@ -186,7 +128,7 @@ namespace AL_Brightness_Slider.Views
 			if (msg == WM_NCHITTEST)
 			{
 				handled = true;
-				var htLocation = DefWindowProc(hwnd, msg, wParam, lParam).ToInt32();
+				int htLocation = DefWindowProc(hwnd, msg, wParam, lParam).ToInt32();
 				switch (htLocation)
 				{
 					case HTBOTTOM:
@@ -207,6 +149,39 @@ namespace AL_Brightness_Slider.Views
 			return IntPtr.Zero;
 		}
 		#endregion Private Methods
+
+		#region Public Methods
+		public void SetWindows7Borders()
+		{
+			try
+			{
+				// Obtain the window handle for WPF application
+				IntPtr mainWindowPtr = new WindowInteropHelper(this).Handle;
+				HwndSource mainWindowSrc = HwndSource.FromHwnd(mainWindowPtr);
+				mainWindowSrc.CompositionTarget.BackgroundColor = Color.FromArgb(0, 0, 0, 0);
+				mainWindowSrc.AddHook(WndProc);
+
+				// Set Margins
+				MARGINS margins = new MARGINS
+				{
+					cxLeftWidth = 4,
+					cxRightWidth = 4,
+					cyBottomHeight = 4,
+					cyTopHeight = 4
+				};
+
+				int hr = DwmExtendFrameIntoClientArea(mainWindowSrc.Handle, ref margins);
+				if (hr < 0)
+				{
+					//DwmExtendFrameIntoClientArea Failed
+				}
+			}
+			catch (DllNotFoundException) // If not Vista, paint background white.
+			{
+				Background = Brushes.White;
+			}
+		}
+		#endregion Public Methods
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

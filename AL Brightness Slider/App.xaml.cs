@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace AL_Brightness_Slider
 {
@@ -10,7 +11,7 @@ namespace AL_Brightness_Slider
 
 			MainWindow = new Views.MainWindow()
 			{
-				// can be set a DataContext, but not now
+				DataContext = new ViewModels.MainWindowViewModel()
 			};
 
 			MainWindow.Show();

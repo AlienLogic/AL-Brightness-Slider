@@ -7,9 +7,10 @@ namespace AL_Brightness_Slider.ViewModels
 	{
 		public int PanelWidth { get; set; }
 		public int PanelHeight { get; set; }
-		public int SquareIconText => PanelHeight < PanelWidth ? PanelHeight : PanelWidth;
 		public string LabelBrightness { get; set; }
-		public Orientation PanelOrientation { get; set; }
+
+		public Orientation PanelOrientation => PanelWidth > PanelHeight ? Orientation.Horizontal : Orientation.Vertical;
+		public int SquareIconText => PanelHeight < PanelWidth ? PanelHeight : PanelWidth;
 		public Dock ImageDock => PanelOrientation == Orientation.Horizontal ? Dock.Left : Dock.Top;
 		public Dock LabelDock => PanelOrientation == Orientation.Horizontal ? Dock.Right : Dock.Bottom;
 		public VerticalAlignment SliderVerticalAlignment => PanelOrientation == Orientation.Horizontal ? VerticalAlignment.Center : VerticalAlignment.Stretch;
@@ -19,7 +20,6 @@ namespace AL_Brightness_Slider.ViewModels
 		{
 			PanelWidth = 360;
 			PanelHeight = 66;
-			PanelOrientation = PanelWidth > PanelHeight ? Orientation.Horizontal : Orientation.Vertical;
 
 			LabelBrightness = "00";
 		}
